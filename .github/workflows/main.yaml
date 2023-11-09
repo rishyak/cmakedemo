@@ -35,12 +35,11 @@ jobs:
         run: cmake --build . --config Release
 
       - name: upload
-        uses: svenstaro/upload-release-action@v2
+        uses: actions/upload-artifact@v3
         with:
-          file: |
+          name: upload firmware
+          path: |
             CMakeDemoBlinky.elf
             CMakeDemoBlinky.bin
             CMakeDemoBlinky.hex
-          tag: ${{ github.ref }}
-          overwrite: true
-          body: "Automated upload of elf, bin, and hex files for ${{ github.ref }}"
+          if-no-files-found: warn
