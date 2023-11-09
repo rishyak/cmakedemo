@@ -1,0 +1,12 @@
+# build and config dirs
+build
+.vscode
+
+# mbed-os
+mbed-os
+
+# silly os
+.DS_Store
+
+# venv
+.venv
