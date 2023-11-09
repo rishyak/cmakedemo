@@ -1,0 +1,46 @@
+name: build and upload firmware
+
+on: [push, pull_request]
+
+jobs:
+  firmware:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+
+    steps:
+      - name: container dependencies
+        run: |
+          pacman -Syu --noconfirm
+          pacman -S git curl zip unzip tar cmake ninja arm-none-eabi-gcc arm-none-eabi-newlib lsb-release --noconfirm
+
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: python setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: mbed setup
+        run: |
+          python3 -m pip install -r requirements.txt
+          mbed-tools deploy
+          mbed-tools configure -m DISCO_F429ZI -t GCC_ARM -o .
+          python3 -m pip install -r mbed-os/requirements.txt
+
+      - name: configure
+        run: cmake -G Ninja .
+
+      - name: build
+        run: cmake --build . --config Release
+
+      - name: upload
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: |
+            CMakeDemoBlinky.elf
+            CMakeDemoBlinky.bin
+            CMakeDemoBlinky.hex
+          tag: ${{ github.ref }}
+          overwrite: true
+          body: "Automated upload of elf, bin, and hex files for ${{ github.ref }}"
