@@ -37,7 +37,7 @@ jobs:
       - name: upload
         uses: actions/upload-artifact@v3
         with:
-          name: upload firmware
+          name: firmware
           path: |
             CMakeDemoBlinky.elf
             CMakeDemoBlinky.bin
