@@ -1,5 +1,5 @@
 # source files
-target_sources(${APP_TARGET} PRIVATE
+target_sources(blinky PRIVATE
   blink.cpp
   main.cpp
 )

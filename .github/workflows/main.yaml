@@ -39,7 +39,7 @@ jobs:
         with:
           name: firmware
           path: |
-            CMakeDemoBlinky.elf
-            CMakeDemoBlinky.bin
-            CMakeDemoBlinky.hex
+            blinky.elf
+            blinky.bin
+            blinky.hex
           if-no-files-found: warn
